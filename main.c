@@ -57,7 +57,8 @@ void hlp(void){
 
 int wrt(void){
     int dgt, a, b;
-    if (!scanf("Enter 3-digits number code: %d\n", &dgt)) {
+    printf("Enter 3-digits number code: ");
+    if (!scanf("%d\n", &dgt)) {
         hlp();
         wrt();
     }
@@ -68,7 +69,8 @@ int wrt(void){
         integral(f1, root(f1, f3, -4, 5, eps1), root(f2, f1, -4, 5, eps1), eps2));
         else if (dgt == 666) return 0;
         else{
-            scanf("Enter left and right ends of the segment: %d %d\n", &a, &b);
+            printf("Enter left and right ends of the segment: ");
+            scanf("%d %d\n", &a, &b);
             if ( (dgt % 100) / 10 == 0){
                 if (dgt / 100 == 1){ 
                     printf("Integral 1) exp(x) + 2 on [%d, %d] = %lf", a, b, integral(f1, a, b, eps2));
