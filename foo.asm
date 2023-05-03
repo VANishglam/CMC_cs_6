@@ -13,26 +13,26 @@ f1:
    
     fld1                ; 1
     fld qword[ebp + 8]  ; x
-    fprem1              ; {x}
-    fst qword[esp + 8]  ; {x}
     fldl2e              ; log_2_e
-    fmulp               ; {x} * log_2_e
-    f2xm1               ; 2 ^ ({x} * log_2_e) - 1
-    faddp               ; 2 ^ ({x} * log_2_e)
-    fstp qword[esp]     ; 2 ^ ({x} * log_2_e)
+    fmulp               ; x * log_2_e
+    fprem1              ; {x * log_2_e}
+    fst qword[esp + 8]  ; {x * log_2_e}
+    f2xm1               ; 2 ^ ({x * log_2_e}) - 1
+    faddp               ; 2 ^ ({x * log_2_e})
+    fstp qword[esp]     ; 2 ^ ({x * log_2_e})
     
     fld qword[ebp + 8]  ; x
-    fld qword[esp + 8]  ; {x}
-    fsubp               ; x - {x}
     fldl2e              ; log_2_e
-    fmulp               ; [x] * log_2_e
-    fld qword[esp]      ; 2 ^ ({x} * log_2_e)
-    fscale              ; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e)
-    fstp qword[esp + 16]; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e)
+    fmulp               ; x * log_2_e
+    fld qword[esp + 8]  ; {x * log_2_e}
+    fsubp               ; x * log_2_e - {x * log_2_e} = [x * log_2_e]
+    fld qword[esp]      ; 2 ^ ({x * log_2_e})
+    fscale              ; 2 ^ ({x * log_2_e}) * 2 ^ ([x * log_2_e])
+    fstp qword[esp + 16]; 2 ^ ({x * log_2_e}) * 2 ^ ([x * log_2_e])
     fstp                ; x
-    fld qword[esp + 16] ; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e)
+    fld qword[esp + 16] ; 2 ^ ({x * log_2_e}) * 2 ^ ([x * log_2_e])
     fld qword[two]      ; 2
-    faddp               ; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e) + 2
+    faddp               ; 2 ^ ({x * log_2_e}) * 2 ^ ([x * log_2_e]) + 2
     
     add esp, 24
     mov esp, ebp
