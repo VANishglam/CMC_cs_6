@@ -10,12 +10,13 @@ f1:
     push ebp
     mov ebp, esp
     sub esp, 24
-   
+    
+    finit
     fld1                ; 1
     fld qword[ebp + 8]  ; x
     fldl2e              ; log_2_e
     fmulp               ; x * log_2_e
-    fprem1              ; {x * log_2_e}
+    fprem               ; {x * log_2_e}
     fst qword[esp + 8]  ; {x * log_2_e}
     f2xm1               ; 2 ^ ({x * log_2_e}) - 1
     faddp               ; 2 ^ ({x * log_2_e})
@@ -44,6 +45,7 @@ f2:
     mov ebp, esp
     sub esp, 8
     
+    finit
     fld qword[ng_two]   ; -2
     fld qword[ebp + 8]  ; x
     fmulp               ; -2 * x
@@ -60,6 +62,7 @@ f3:
     mov ebp, esp
     sub esp, 8
     
+    finit
     fld qword[ng_five]; -5
     fld qword[ebp + 8]; x
     fdivp             ; -5 / x

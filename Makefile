@@ -1,6 +1,6 @@
 .PHONY: all clean
 all: program
-main.o: main.c
+main.o: main.c myfirstheader.h
 	gcc -m32 -c -o main.o main.c -no-pie
 foo.o: foo.asm
 	nasm -f elf32 -o foo.o foo.asm
