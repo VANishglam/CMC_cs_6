@@ -9,19 +9,30 @@ global f1, f2, f3
 f1:
     push ebp
     mov ebp, esp
-    sub esp, 8
+    sub esp, 24
+   
+    fld1                ; 1
+    fld qword[ebp + 8]  ; x
+    fprem1              ; {x}
+    fst qword[esp + 8]  ; {x}
+    fldl2e              ; log_2_e
+    fmulp               ; {x} * log_2_e
+    f2xm1               ; 2 ^ ({x} * log_2_e) - 1
+    faddp               ; 2 ^ ({x} * log_2_e)
+    fstp qword[esp]     ; 2 ^ ({x} * log_2_e)
     
-    fld1          ; 1
-    fld qword[esp]; x
-    fprem1        ; {x}
-    fldl2e        ; log_2_e
-    fmulp         ; {x} * log_2_e
-    f2xm1         ; 2 ^ ({x} * log_2_e) - 1
-    fld1          ; 1
-    faddp         ; 2 ^ ({x} * log_2_e)
+    fld qword[ebp + 8]  ; x
+    fld qword[esp + 8]  ; {x}
+    fsubp               ; x - {x}
+    fldl2e              ; log_2_e
+    fmulp               ; [x] * log_2_e
+    fld qword[esp]      ; 2 ^ ({x} * log_2_e)
+    fscale              ; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e)
+    fstp qword[esp + 16]; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e)
+    fstp                ; x
+    fld qword[esp + 16] ; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e)    
     
-    
-    add esp, 8
+    add esp, 24
     mov esp, ebp
     pop ebp
     ret
@@ -32,7 +43,7 @@ f2:
     sub esp, 8
     
     fld ng_two      ; -2
-    fld qword[esp]  ; x
+    fld qword[ebp + 8]  ; x
     fmulp           ; -2 * x
     fld qword[eight]; 8
     faddp           ; -2 * x +8
@@ -47,9 +58,9 @@ f3:
     mov ebp, esp
     sub esp, 8
     
-    fld ng_five     ; -5
-    fld qword[esp]  ; x
-    fdivp           ; -5 / x
+    fld qword[ng_five]; -5
+    fld qword[ebp + 8]    ; x
+    fdivp             ; -5 / x
     
     add esp, 8
     mov esp, ebp
