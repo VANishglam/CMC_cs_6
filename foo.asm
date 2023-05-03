@@ -30,7 +30,9 @@ f1:
     fscale              ; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e)
     fstp qword[esp + 16]; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e)
     fstp                ; x
-    fld qword[esp + 16] ; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e)    
+    fld qword[esp + 16] ; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e)
+    fld qword[two]      ; 2
+    faddp               ; 2 ^ ({x} * log_2_e) * 2 ^ ([x] * log_2_e) + 2
     
     add esp, 24
     mov esp, ebp
@@ -42,11 +44,11 @@ f2:
     mov ebp, esp
     sub esp, 8
     
-    fld ng_two      ; -2
+    fld qword[ng_two]   ; -2
     fld qword[ebp + 8]  ; x
-    fmulp           ; -2 * x
-    fld qword[eight]; 8
-    faddp           ; -2 * x +8
+    fmulp               ; -2 * x
+    fld qword[eight]    ; 8
+    faddp               ; -2 * x +8
     
     add esp, 8
     mov esp, ebp
@@ -59,7 +61,7 @@ f3:
     sub esp, 8
     
     fld qword[ng_five]; -5
-    fld qword[ebp + 8]    ; x
+    fld qword[ebp + 8]; x
     fdivp             ; -5 / x
     
     add esp, 8
