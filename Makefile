@@ -1,3 +1,4 @@
+.PHONY: all clean
 all: program
 main.o: main.c
 	gcc -m32 -c -o main.o main.c -no-pie

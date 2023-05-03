@@ -11,12 +11,15 @@ f1:
     mov ebp, esp
     sub esp, 8
     
-    fld1
-    fldl2e
-    fld qword[esp]
-    fmulp
-    f2xm1
-    faddp
+    fld1          ; 1
+    fld qword[esp]; x
+    fprem1        ; {x}
+    fldl2e        ; log_2_e
+    fmulp         ; {x} * log_2_e
+    f2xm1         ; 2 ^ ({x} * log_2_e) - 1
+    fld1          ; 1
+    faddp         ; 2 ^ ({x} * log_2_e)
+    
     
     add esp, 8
     mov esp, ebp
@@ -28,11 +31,11 @@ f2:
     mov ebp, esp
     sub esp, 8
     
-    fld ng_two
-    fld qword[esp]
-    fmulp
-    fld qword[eight]
-    faddp
+    fld ng_two      ; -2
+    fld qword[esp]  ; x
+    fmulp           ; -2 * x
+    fld qword[eight]; 8
+    faddp           ; -2 * x +8
     
     add esp, 8
     mov esp, ebp
@@ -44,9 +47,9 @@ f3:
     mov ebp, esp
     sub esp, 8
     
-    fld ng_five
-    fld qword[esp]
-    fdivp
+    fld ng_five     ; -5
+    fld qword[esp]  ; x
+    fdivp           ; -5 / x
     
     add esp, 8
     mov esp, ebp
