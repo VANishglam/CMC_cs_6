@@ -5,6 +5,6 @@ main.o: main.c myfirstheader.h
 foo.o: foo.asm
 	nasm -f elf32 -o foo.o foo.asm
 program: foo.o main.o
-	gcc -m32 -o prgrm foo.o main.o -no-pie
+	gcc -m32 -o prgrm foo.o main.o -no-pie -lm
 clean: 
 	rm -rf foo.o main.o prgrm

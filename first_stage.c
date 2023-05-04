@@ -6,11 +6,11 @@
 double eps = 0.001;
 
 double f1(double x){
-    return (1.5 * x);
+    return (exp(x) + 2);
 }
 
 double f2(double x){
-    return (10 - 3.5 * x);
+    return (-2 * x +8);
 }
 
 double f3(double x){
@@ -63,12 +63,13 @@ double integral(double ( *f)(double x), double a, double b, double eps2){
 
 int main(void)
 {
-    double a = -3, b = 8;
-    printf("Integrals:\n");
-    printf("Right: %lf My: %lf\n", 2980.9082, integral(f3, a, b, eps));
-    printf("Right: %lf My: %lf\n", 179.666, integral(f6, a, b, eps));
-    printf("Roots:\n");
-    printf("Right: %lf My: %lf\n", 2.0, root(f1, f2, a, b, eps));
-    printf("Right: %lf My: %lf\n", 3.0, root(f4, f5, a, b, eps));
+    double a = -2, b = 2;
+    //printf("Integrals:\n");
+    //printf("Right: %lf My: %lf\n", 2980.9082, integral(f3, a, b, eps));
+    //printf("Right: %lf My: %lf\n", 179.666, integral(f6, a, b, eps));
+    //printf("Roots:\n");
+    //printf("Right: %lf My: %lf\n", 2.0, root(f1, f2, a, b, eps));
+    //printf("Right: %lf My: %lf\n", 3.0, root(f4, f5, a, b, eps));
+    printf("%lf", root(f1, f2, a, b, eps));
     return 0;
 }
