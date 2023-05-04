@@ -11,9 +11,9 @@ double f3(double x);
 
 double root(double ( *f)(double x), double  ( *g)(double x), double a, double b, double eps1){//Binary root search
     double upward = b, bottom = a, mid;
-    while (upward - bottom > eps1){
+    while (upward - bottom > eps1){//While difference between the points will not be the desired accuracy
         k++;
-        mid = (bottom + upward) / 2;
+        mid = (bottom + upward) / 2;//We take the midpoint of the segment
         if ((( *f)(mid) - ( *g)(mid)) * (( *f)(bottom) - ( *g)(bottom)) <= 0) upward = mid;//We need a segment at the ends of which the functions has different signs
         else bottom = mid;
     }
@@ -25,18 +25,18 @@ double integral(double ( *f)(double x), double a, double b, double eps2){//Calcu
     double sum1 = 0, sum2 = 0;
     double h = (b - a)/ n;
     for (int i = 0; i < n; i++){
-        sum2 += ( *f)(a + (i + 0.5) * h);
+        sum2 += ( *f)(a + (i + 0.5) * h);//We calculate the sum at the midpoints of each segment
     }
-    sum2 *= h;
-    while (fabs((sum2 - sum1) / 3) > eps2){
-        n *= 2;
+    sum2 *= h;//It`s the starting sum
+    while (fabs((sum2 - sum1) / 3) > eps2){//While difference between the sums will not be the desired accuracy
+        n *= 2;//Increasing the number of splitting segments to make a more accurate sum
         sum1 = sum2;
         sum2 = 0;
         h = (b - a) / n;
         for (int i = 0; i < n; i++){
-            sum2 += ( *f)(a + (i + 0.5) * h);
+            sum2 += ( *f)(a + (i + 0.5) * h);//We calculate the sum at the midpoints of each segment
         }
-        sum2 *= h;
+        sum2 *= h;//We made a new more accurate sum
     }
     return sum2;
 }
@@ -62,9 +62,9 @@ int main(void){
         return 0;
     }
     else if (!strcmp(cmnd, ans)) {//For my personal task
-            double a = integral(f2, root(f2, f3, -5, 0, eps1), root(f2, f1, -1, 3, eps1), eps2);
-            double b = integral(f3, root(f1, f3, -5, 0, eps1), root(f3, f2, -5, 0, eps1), eps2);
-            double c = integral(f1, root(f1, f3, -5, 0, eps1), root(f2, f1, -1, 3, eps1), eps2);
+            double a = integral(f2, root(f2, f3, -5, 0, eps1), root(f2, f1, -1, 3, eps1), eps2);//The red integral in the photo
+            double b = integral(f3, root(f1, f3, -5, 0, eps1), root(f3, f2, -5, 0, eps1), eps2);//The green integral in the photo
+            double c = integral(f1, root(f1, f3, -5, 0, eps1), root(f2, f1, -1, 3, eps1), eps2);//The blue integral in the photo
             printf("Answer for my 8th variant: %lf\n", (a + b - c));
             return 0;
         }

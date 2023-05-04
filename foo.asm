@@ -30,7 +30,7 @@ f1:
     faddp                ; 2 ^ ({x * log_2_e})
     fmulp                ; 2 ^ ({x * log_2_e}) * 2 ^ ([x * log_2_e])
     fld qword[two]       ; 2
-    faddp                ; 2 ^ ({x * log_2_e}) * 2 ^ ([x * log_2_e]) + 2
+    faddp                ; st(0) = 2 ^ ({x * log_2_e}) * 2 ^ ([x * log_2_e]) + 2
     
     add esp, 24
     mov esp, ebp
@@ -47,7 +47,7 @@ f2:
     fld qword[ebp + 8]  ; x
     fmulp               ; -2 * x
     fld qword[eight]    ; 8
-    faddp               ; -2 * x +8
+    faddp               ; st(0) = -2 * x +8
     
     add esp, 8
     mov esp, ebp
@@ -62,7 +62,7 @@ f3:
     finit
     fld qword[ng_five]; -5
     fld qword[ebp + 8]; x
-    fdivp             ; -5 / x
+    fdivp             ; st(0) = -5 / x
     
     add esp, 8
     mov esp, ebp
